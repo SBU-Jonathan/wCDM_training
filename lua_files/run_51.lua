@@ -1,7 +1,7 @@
 all_parameters_must_be_in_file = true
 
 particle_Npart_1D = 1024
-force_nmesh = 1024
+force_nmesh = 2048
 ic_random_seed = 1234
 output_redshifts = {3, 2, 1, 0.5, 0.0}
 timestep_nsteps = {12, 5, 8, 9, 17}
@@ -11,11 +11,11 @@ fof_nmin_per_halo = 20
 pofk = true
 pofk_nmesh = 1024
 ic_fix_amplitude = true
-ic_reverse_phases = true
+ic_reverse_phases = false
 ic_type_of_input = "transferinfofile"
-ic_input_filename = "/gpfs/projects/MirandaGroup/jonathan/cola_projects/wcdm/transferinfo_files/transferinfo51.txt"
+ic_input_filename = "/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transferinfo_files/transferinfo51.txt"
 
-output_folder = "/gpfs/projects/MirandaGroup/jonathan/cola_projects/wcdm/output/51"
+output_folder = "/scratch/decola/joao.reboucas2/COLA_projects/wCDM/outputs/51"
 simulation_name = "run_51"
 simulation_boxsize = 1024.0
 
@@ -23,9 +23,9 @@ simulation_use_cola = true
 simulation_use_scaledependent_cola = true
 
 cosmology_model = "w0waCDM"
-cosmology_OmegaCDM = 0.19287754246832686
-cosmology_Omegab = 0.05566314383567325
-cosmology_OmegaMNu = 0.0016268873695794005
+cosmology_OmegaCDM = 0.19286270027334412
+cosmology_Omegab = 0.055663144776969986
+cosmology_OmegaMNu = 0.0016426542018331198
 cosmology_OmegaLambda = 1 - cosmology_OmegaCDM - cosmology_Omegab - cosmology_OmegaMNu
 cosmology_Neffective = 3.046
 cosmology_TCMB_kelvin = 2.7255
@@ -78,8 +78,8 @@ ic_random_field_type = "gaussian"
 ic_nmesh = particle_Npart_1D
 ic_use_gravity_model_GR = true
 ic_LPT_order = 2
-ic_input_redshift = 0.0
-ic_initial_redshift = 20.0
+ic_input_redshift = 19.0
+ic_initial_redshift = 19.0
 ic_sigma8_normalization = false
 ic_sigma8_redshift = 0.0
 ic_sigma8 = 0.83
