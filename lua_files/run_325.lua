@@ -23,18 +23,18 @@ simulation_use_cola = true
 simulation_use_scaledependent_cola = true
 
 cosmology_model = "w0waCDM"
-cosmology_OmegaCDM = 0.33673101226274005
-cosmology_Omegab = 0.04804850572311696
-cosmology_OmegaMNu = 0.0013082980384288496
+cosmology_OmegaCDM = 0.2873426981397262
+cosmology_Omegab = 0.040743210148165385
+cosmology_OmegaMNu = 0.0016908502183690286
 cosmology_OmegaLambda = 1 - cosmology_OmegaCDM - cosmology_Omegab - cosmology_OmegaMNu
 cosmology_Neffective = 3.046
 cosmology_TCMB_kelvin = 2.7255
-cosmology_h = 0.6900666762415365
-cosmology_As = 2.404040673382238e-09
-cosmology_ns = 0.9753865035681616
+cosmology_h = 0.6070043844791625
+cosmology_As = 1.7518916797256948e-09
+cosmology_ns = 0.9932485264158489
 cosmology_kpivot_mpc = 0.05
 if cosmology_model == "w0waCDM" then 
-  cosmology_w0 = -1.2022667566167968
+  cosmology_w0 = -0.9399209939439743
   cosmology_wa = 0.0
 end
 

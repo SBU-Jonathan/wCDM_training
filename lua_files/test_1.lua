@@ -13,19 +13,19 @@ pofk_nmesh = 1024
 ic_fix_amplitude = true
 ic_reverse_phases = false
 ic_type_of_input = "transferinfofile"
-ic_input_filename = "/gpfs/projects/MirandaGroup/jonathan/cola_projects/wcdm/transferinfo_files/transferinfo1.txt"
+ic_input_filename = "/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transferinfo_files/transferinfotest_1.txt"
 
-output_folder = "/gpfs/projects/MirandaGroup/jonathan/cola_projects/wcdm/output/test_1"
-simulation_name = "run_test_1"
+output_folder = "/scratch/decola/joao.reboucas2/COLA_projects/wCDM/outputs/test_1"
+simulation_name = "test_1"
 simulation_boxsize = 1024.0
 
 simulation_use_cola = true
 simulation_use_scaledependent_cola = true
 
 cosmology_model = "w0waCDM"
-cosmology_OmegaCDM = 0.26862545320526926
-cosmology_Omegab = 0.048999994807038164
-cosmology_OmegaMNu = 0.001387839175994251
+cosmology_OmegaCDM = 0.2686129106338064
+cosmology_Omegab = 0.04899999480688466
+cosmology_OmegaMNu = 0.001387839175989903
 cosmology_OmegaLambda = 1 - cosmology_OmegaCDM - cosmology_Omegab - cosmology_OmegaMNu
 cosmology_Neffective = 3.046
 cosmology_TCMB_kelvin = 2.7255

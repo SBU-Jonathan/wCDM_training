@@ -21,6 +21,7 @@ nmax = int(sys.argv[2])
 test = False
 if len(sys.argv) == 4:
     test = True
+    
 
 print('----------------------------------------------------------------')
 print(f'Generating transfer functions for cosmologies {nmin} to {nmax}.')
@@ -29,9 +30,9 @@ print(f'Generating transfer functions for cosmologies {nmin} to {nmax}.')
 print('Using CLASS installed in:', classy.__file__)
 
 # Loading LHS points
-lhs_path = '/home/grads/data/Joao/COLA_projects/wCDM/wcdm_lhs.txt'
+lhs_path = './lhs.txt'
 print(f'Reading LHS in {lhs_path}')
-w_lhs, ns_lhs, h_lhs, Omegab_lhs, Omegam_lhs, As_lhs = np.loadtxt(lhs_path, unpack=True)
+Omegam_lhs, Omegab_lhs, ns_lhs, As_lhs, h_lhs, w_lhs = np.loadtxt(lhs_path, unpack=True)
 w_test = [-1.3, -0.7, -0.9999]
 
 #############################################
@@ -81,16 +82,16 @@ for n_iter in range(nmin, nmax+1):
     cosmo.empty()
     cosmo.set(
             {'output':'dTk, vTk, lTk', # lTk is the new approximation scheme transfer functions
-            'Omega_Lambda': 0,
+            'Omega_Lambda': 0, # This is necessary to make CLASS run fluid DE
             'Omega_b': Omega_b,
             'w0_fld': f'{w}',
             'wa_fld': '0.',
             'use_ppf': 'no',
             'radiation_streaming_approximation':3, #turnoff radiation approximation.
             'ur_fluid_approximation':2, #turnoff massless nu fluid approximation
-            'h':h,
+            'h': h,
             'z_max_pk': 250.,
-            'z_pk':'99.0, 9.0, 4.0, 0.',
+            'z_pk': '99.0, 9.0, 4.0, 0.',
             'evolver': 0, #runge kutta solver, 1 would be for stiff equations not our case, but it makes no differece
             'n_s': ns,
             'A_s': As,
@@ -142,7 +143,7 @@ for n_iter in range(nmin, nmax+1):
         f.write(f'{h}')
     print(f'Saved cosmological params in cosmo_params/cosmo_{filename}.txt')
 
-    ##### BEGIN Gui's snippet to save background for COLA to read
+    ##### BEGIN Saving Cosmology H_table (not necessary)
     H0 = cosmo.h() * 100
     c = H0 / background['H [1/Mpc]'][-1]
 
@@ -167,9 +168,10 @@ for n_iter in range(nmin, nmax+1):
     as_test = np.logspace(np.log10(10**(-4)), np.log10(1), 2000)
     bg_table = np.vstack([as_test, H_over_H0_COLA_of_a(as_test), dlnH_dlna_of_a(as_test)]).T
     np.savetxt(f'./background_files/bg_{filename}.txt',bg_table, fmt='   %.7E   %.7E   %.7E', header = '       a       HoverH0(a)       dlogHdloga_of_a(a)')
-##### END Gui's snippet to save background for COLA to read
+    
     print(f"Saving H table in ./background_files/bg_{filename}.txt")
-
+    ##### END Saving Cosmology H_table (not necessary)
+    
     max_z_needed = background_z_at_tau(tau[0])
     if max_z_needed > z_max_pk:
         print(f'In cosmology {filename}, you must increase the value of z_max_pk to at least {max_z_needed}')
@@ -264,13 +266,13 @@ for n_iter in range(nmin, nmax+1):
                                             T_v_b_COLA[index_z,:], T_v_b_min_v_c_COLA[index_z,:])).T
 
     #Routine to save a bunch of files in the COLA format
-    amypond_direc = f'/home/grads/data/Joao/COLA_projects/wCDM/transfer_functions/{filename}/'
+    amypond_direc = f'./transfer_functions/{filename}/' # Local folder where the transfers are going to be saved
     try:
         os.mkdir(amypond_direc)
     except FileExistsError:
         pass
-    cluster_path = f'/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transfer_functions/{filename}'
-    transferinfo_path = f'/home/grads/data/Joao/COLA_projects/wCDM/transferinfo_files/transferinfo{filename}.txt'
+    cluster_path = f'/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transfer_functions/{filename}' # Path where the transfers will be in the cluster
+    transferinfo_path = f'./transferinfo_files/transferinfo{filename}.txt' # Local folder where the transferinfo is going to be saved
 
     for i, z_COLA in enumerate(zs_COLA):
         fname = f"data_transfer_z{z_COLA:.3f}.dat"

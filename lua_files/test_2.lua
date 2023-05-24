@@ -13,10 +13,10 @@ pofk_nmesh = 1024
 ic_fix_amplitude = true
 ic_reverse_phases = false
 ic_type_of_input = "transferinfofile"
-ic_input_filename = "/gpfs/projects/MirandaGroup/jonathan/cola_projects/wcdm/transferinfo_files/transferinfo2.txt"
+ic_input_filename = "/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transferinfo_files/transferinfotest_2.txt"
 
-output_folder = "/gpfs/projects/MirandaGroup/jonathan/cola_projects/wcdm/output/test_2"
-simulation_name = "run_test_2"
+output_folder = "/scratch/decola/joao.reboucas2/COLA_projects/wCDM/outputs/test_2"
+simulation_name = "test_2"
 simulation_boxsize = 1024.0
 
 simulation_use_cola = true
