@@ -4,9 +4,20 @@ Necessary files to run COLA wCDM training simulations. They include:
 - The transfer functions for each cosmology
 - `Transferinfo` files, i.e. files that tell COLA where the transfer functions are located and at which redshifts they are calculated. These files are passed as arguments in the lua files mentioned below.
 - Lua files, which are the basic COLA inputs containing all simulation settings (e.g. cosmology, initial condition generation, number of particles, resolution settings...)
+- Auxiliary scripts to generate all the files in this repo.
+
+## Quick Instructions on how to run COLA simulations
+- Clone and install [`FML`](https://github.com/SBU-Jonathan/FML_AUGUST_2020). Follow the instructions on the README.
+- Run the python script `setup_paths.py`: `python setup_paths.py`
+- Adjust the `SLURM` script in `scripts` to your cluster
+- Submit the script for a subset of simulations
 
 
-## Generating Transfer Functions
+## Description of Simulations
+This set of COLA simulations consists on 500 wCDM cosmologies sampled with an LHS with borders bigger than the EE2 box by 10% (per dimension). The simulations are numbered 0-499 and the cosmologies are described in `lhs.txt`. Additionally, three test simulations, named `test_0`, `test_1` and `test_2` are provided as calibration tests. The three test simulations have all cosmological parameters set to the EE2 reference values except the DE equation of state, given by `-1.3`, `-0.7` and `-0.9999` respectively.
+
+## Description of Pipeline
+### Generating Transfer Functions
 COLA needs the transfer functions of all species in the N-body gauge. They are calculated using Gui's modified [`hi_class`](https://github.com/SBU-Jonathan/hi_class_Nbody). Make 
 sure to install it before running the generator script, `transfer_function_generator.py`.
 
@@ -19,11 +30,11 @@ defined as `Omega_cdm + Omega_b + Omega_massivenu`. The problem is that we don't
 using an approximation `Omega_nu_approx * h^2 = m_nu / (93.14 eV)` to calculate `Omega_cdm = Omega_m - Omega_b - Omega_nu_approx`, run CLASS, obtain the exact value of 
 `Omega_massivenu` from CLASS and save it (and other cosmological parameters) to this file. These cosmological parameters are then written in the Lua file. Once the lua files are generated, the `cosmo_{i}.txt` files are not needed anymore.
 
-**NOTE**: Before running the script, open it to adjust a few paths:
+**NOTE**: The transfer function script has a few hard-coded paths related to the AmyPond and the cluster where the simulations are going to be run:
 - `amypond_direc`: the path to save the transfer functions in the current system
 - `cluster_path`: the path where the transfer functions will be in the cluster that will run the simulations. I currently use `/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transfer_functions/{i}`, where `i` is the index of the cosmology in the LHS.
 - `transferinfo_path`: the path to save the `transferinfo` file in the current system. In the `transferinfo` file, the `cluster_path` will be written, telling COLA where the transfer functions are. I use `/scratch/decola/joao.reboucas2/COLA_projects/wCDM/transferinfo_files/transferinfo{i}.txt`
-Adapt these paths to your cluster.
+Once the files are generated, they can be adjusted via the `setup_paths.py` script.
 
 To generate the transfer functions from cosmology `NMIN` to cosmology `NMAX`, simply 
 run the command:
@@ -32,7 +43,7 @@ run the command:
 $ python transfer_function_generator.py NMIN NMAX
 ```
 
-**NOTE**: Since CLASS is being run with high precision, it takes around 1min (in AmyPond) to generate transfers for one cosmology.
+**NOTE**: Since CLASS is being run with high precision, it takes around 1min (in AmyPond) to generate transfers for a single cosmology.
 
 **NOTE**: The script seems to be leaking memory: each subsequent transfer function calculation occupies more and more memory in the system. In AmyPond, I recommend running only 5 
 or 6 cosmologies at time. I thought Python wasn't supposed to leak memory :(
@@ -55,7 +66,7 @@ Once you run the script for all cosmologies, you should have the transfer functi
 $ python transfer_function_generator.py 0 2 --test
 ```
 
-## Generating lua files
+### Generating lua files
 The lua file generation is much simpler. It is done via the notebook `lua_script_generator.ipynb`. It finds the cosmological parameters in `cosmo_params` and writes them in the lua.
 
 Apart from the cosmological parameters, the lua files also contain:
@@ -70,8 +81,8 @@ Apart from the cosmological parameters, the lua files also contain:
 
 To generate the lua files for the LHS runs, just run the first three cells of the notebook. To generate lua files for the test runs described above, run the fourth cell.
 
-## Running the simulations
-Install [`FML`](https://github.com/SBU-Jonathan/FML_AUGUST_2020) in your cluster. I will assume the following structure:
+### Running the simulations
+Install [`FML`](https://github.com/SBU-Jonathan/FML_AUGUST_2020) in your cluster. I use the following structure:
 ```
 FML/ (path where the simulations need to be submitted)
 COLA_projects/
@@ -81,7 +92,7 @@ COLA_projects/
      ---- lua_files/
      ---- outputs/
 ```
-but `COLA_projects` can also be inside `FML` if the paths are correctly adjusted. The COLA binary is inside `FML/FML/COLASolver/nbody` (there in an FML directory inside the FML directory, be careful). The command to run COLA is (assuming you are in the root directory of FML where `start_cola` is):
+but `COLA_projects` can also be inside `FML`. The COLA binary is inside `FML/FML/COLASolver/nbody` (there in an FML directory inside the FML directory, be careful). The command to run COLA is (assuming you are in the root directory of FML where `start_cola` is):
 ```
 $ ./FML/COLASolver/nbody ../COLA_projects/wCDM/lua_files/run_${SLURM_JOB_ARRAY_ID}.lua
 ```
