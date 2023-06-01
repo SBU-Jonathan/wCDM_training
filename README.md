@@ -18,6 +18,7 @@ Necessary files to run COLA wCDM training simulations. They include:
 This set of COLA simulations consists on 500 wCDM cosmologies sampled with an LHS with borders bigger than the EE2 box by 10% (per dimension). The simulations are numbered 0-499 and the cosmologies are described in `lhs.txt`. Additionally, three test simulations, named `test_0`, `test_1` and `test_2` are provided as calibration tests. The three test simulations have all cosmological parameters set to the EE2 reference values except the DE equation of state, given by `-1.3`, `-0.7` and `-0.9999` respectively.
 
 ## Description of Pipeline
+All necessary files for running the simulations have been generated already. Below, I describe the generation process.
 ### Generating Transfer Functions
 COLA needs the transfer functions of all species in the N-body gauge. They are calculated using Gui's modified [`hi_class`](https://github.com/SBU-Jonathan/hi_class_Nbody). Make 
 sure to install it before running the generator script, `transfer_function_generator.py`.
