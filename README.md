@@ -7,7 +7,7 @@ Necessary files to run COLA wCDM training simulations. They include:
 - Auxiliary scripts to generate all the files in this repo.
 
 ## Quick Instructions on how to run COLA simulations
-- Clone and install [`FML`](https://github.com/SBU-Jonathan/FML_AUGUST_2020). Follow the instructions on the README.
+- Clone and install [`FML`](https://github.com/SBU-Jonathan/FML). Follow the instructions on the README.
 - Clone this repository in your cluster.
 - Run the python script `setup_paths.py`: `python setup_paths.py`
 - Adjust the `SLURM` script in `scripts` to your cluster
