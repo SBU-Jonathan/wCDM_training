@@ -11,7 +11,7 @@ Necessary files to run COLA wCDM training simulations. They include:
 - Clone this repository in your cluster.
 - Run the python script `setup_paths.py`: `python setup_paths.py`
 - Adjust the `SLURM` script in `scripts` to your cluster
-- Submit the script for a subset of simulations
+- Submit the script for a subset of simulations using an array job.
 
 
 ## Description of Simulations
